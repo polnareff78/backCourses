@@ -40,6 +40,7 @@ app.get('/api/produits', async (req, res) => {
 });
 
 app.post('/api/produits', async (req, res) => {
+  console.log("Données reçues pour ajout :", req.body); // Log des données reçues
   const produit = new Produit(req.body);
   await produit.save();
   res.json(produit);
