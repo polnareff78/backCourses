@@ -5,6 +5,11 @@ const cors = require('cors');
 // Initialisation de l'application Express
 const app = express();
 
+// Configurer CORS pour permettre les requêtes depuis votre frontend sur Vercel
+app.use(cors({
+  origin: 'https://liste-courses-5s4flf0ls-jotaro7811outlookfrs-projects.vercel.app'
+}));
+
 const mongURI = 'mongodb://atlas-sql-671a5ae7413b613e60f82b62-yhwe3.a.query.mongodb.net/sample_mflix?ssl=true&authSource=admin';
 // Middleware
 const corsOptions = {
