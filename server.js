@@ -47,16 +47,17 @@ app.get('/api/produits', async (req, res) => {
 });
 
 app.post('/api/produits', async (req, res) => {
-  console.log("Données reçues pour ajout :", req.body); // Log des données reçues
-  const produit = new Produit(req.body);
+  console.log("Données reçues :", req.body); // Log des données reçues
   try {
+    const produit = new Produit(req.body);
     await produit.save();
-    res.status(201).json(produit); // Retourner un statut 201 pour une création réussie
+    res.status(201).json(produit); // Renvoie un code de statut 201 pour une création réussie
   } catch (error) {
-    console.error('Erreur lors de l\'ajout du produit:', error);
-    res.status(500).send('Erreur lors de l\'ajout du produit');
+    console.error("Erreur lors de l'ajout du produit :", error);
+    res.status(500).json({ message: "Erreur lors de l'ajout du produit", error: error.message });
   }
 });
+
 
 app.delete('/api/produits/:id', async (req, res) => {
   try {
