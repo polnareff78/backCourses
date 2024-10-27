@@ -22,27 +22,15 @@ app.use(express.json()); // Pour analyser les corps de requête JSON
 // Connexion à MongoDB
 mongoose.connect(mongURI, {
   useNewUrlParser: true,
-  useUnifiedTopology: true,
-  useCreateIndex: true, // pour créer des index si nécessaire
-  useFindAndModify: false // pour éviter les avertissements de dépréciation
+  useUnifiedTopology: true
 })
   .then(() => console.log('Connecté à MongoDB'))
   .catch(err => console.log('Erreur de connexion à MongoDB:', err));
 
-// Activer les logs de Mongoose
-mongoose.set('debug', true);
-
 // Modèle Mongoose pour les produits
 const produitSchema = new mongoose.Schema({
-  nom: {
-    type: String,
-    required: true, // Le nom est requis
-  },
-  quantite: {
-    type: Number,
-    required: true, // La quantité est requise
-    min: 1 // La quantité minimale est 1
-  },
+  nom: String,
+  quantite: Number,
 });
 
 const Produit = mongoose.model('Produit', produitSchema);
@@ -71,13 +59,9 @@ app.post('/api/produits', async (req, res) => {
   }
 });
 
-
 app.delete('/api/produits/:id', async (req, res) => {
   try {
-    const produit = await Produit.findByIdAndDelete(req.params.id);
-    if (!produit) {
-      return res.status(404).json({ message: 'Produit non trouvé' });
-    }
+    await Produit.findByIdAndDelete(req.params.id);
     res.json({ message: 'Produit supprimé' });
   } catch (error) {
     console.error('Erreur lors de la suppression du produit:', error);
