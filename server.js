@@ -5,12 +5,20 @@ const cors = require('cors');
 // Initialisation de l'application Express
 const app = express();
 
+const mongURI = 'mongodb://atlas-sql-671a5ae7413b613e60f82b62-yhwe3.a.query.mongodb.net/sample_mflix?ssl=true&authSource=admin';
 // Middleware
+const corsOptions = {
+  origin: "https://liste-courses-seven.vercel.app", 
+  optionsSuccessStatus: 200
+};
+app.use(cors(corsOptions));
+
+
 app.use(cors());
 app.use(express.json());
 
 // Connexion à MongoDB
-mongoose.connect('mongodb://localhost:27017/listeCourses', {
+mongoose.connect(mongURI, {
   useNewUrlParser: true,
   useUnifiedTopology: true
 })
